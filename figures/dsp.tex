@@ -1,0 +1,50 @@
+\documentclass[tikz]{standalone}
+\usepackage[american]{circuitikz}
+\begin{document}
+
+\ctikzset{tripoles/american nand port/height = 2.8}
+\tikzset{block/.style =
+  dipchip,
+  hide numbers,
+  no topmark,
+  external pins width = 0,
+}
+\begin{tikzpicture}[transform shape, node distance = 5cm, font = \tiny]
+  \node[block, num pins = 22] (l) {DSP};
+  \node[nand port, number inputs = 7, right of = l, xshift = -2cm] (m) {};
+  \node[right of = m, xshift = -4.5cm] (mr) {};
+  \draw (m) -- (mr.center);
+  \node (lb) at (l.s) {};
+  \node (lt) at (l.n) {};
+  \node[block, num pins = 10, right of = lt, xshift = 3cm, anchor = north] (t) {RAM1};
+  \node[block, num pins = 10, right of = lb, xshift = 3cm, anchor = south] (b) {RAM2};
+  \draw (l.bpin 12) node[left] {RD} -- (b.bpin 5) node[right] {RD};
+  \draw (l.bpin 13) node[left] {WE} -- (b.bpin 4) node[right] {WE};
+  \draw[very thick] (l.bpin 21) node[left] {A\lbrack 9:0\rbrack} -- (t.bpin 2) node[right] {A\lbrack 9:0\rbrack};
+  \draw (mr.center) |- (t.bpin 3) node[right] {CE};
+  \draw (mr.center) |- (b.bpin 3) node[right] {CE};
+  \node (b4) at (b.bpin 4) {};
+  \node[left of = b4, xshift = 2cm] (we) {};
+  \draw (we.center) |- (t.bpin 4) node[right] {WE};
+  \node (b5) at (b.bpin 5) {};
+  \node[left of = b5, xshift = 2.5cm] (rd) {};
+  \draw (rd.center) |- (t.bpin 5) node[right] {RD};
+  \node (t1) at (t.bpin 1) {};
+  \node[left of = t1, xshift = 3.5cm] (d) {};
+  \draw[thick] (d.center) |- (b.bpin 1) node[right] {D\lbrack 7:0\rbrack};
+  \draw[thick] (d.center) -- (t.bpin 1) node[right] {D\lbrack 7:0\rbrack};
+  \draw[ultra thick] (l.bpin 22) node[left] {D\lbrack 15:0\rbrack} -- (d.center);
+  \node (t2) at (t.bpin 2) {};
+  \node[left of = t2, xshift = 4cm] (a) {};
+  \draw[very thick] (a.center) |- (b.bpin 2) node[right] {A\lbrack 9:0\rbrack};
+  \draw (l.bpin 14) node[left] {BR} -- (m.in 7) node[right] {};
+  \draw (l.bpin 15) node[left] {A15} -- (m.in 6) node[right] {};
+  \draw (l.bpin 16) node[left] {A14} -- (m.in 5) node[right] {};
+  \draw (l.bpin 17) node[left] {A13} -- (m.in 4) node[right] {};
+  \draw (l.bpin 18) node[left] {A12} -- (m.in 3) node[right] {};
+  \draw (l.bpin 19) node[left] {A11} -- (m.in 2) node[right] {};
+  \draw (l.bpin 20) node[left] {A10} -- (m.in 1) node[right] {};
+  \node[ocirc, left] at (m.bin 7) {};
+\end{tikzpicture}
+
+\end{document}

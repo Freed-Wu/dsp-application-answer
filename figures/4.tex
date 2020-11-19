@@ -1,0 +1,25 @@
+\documentclass[tikz]{standalone}
+\usepackage{circuitikz}
+\begin{document}
+
+\tikzset{block/.style =
+  dipchip,
+  num pins = 10,
+  hide numbers,
+  no topmark,
+  external pins width = 0,
+}
+\ctikzset{multipoles/dipchip/width = 2.2}
+\begin{tikzpicture}[transform shape, node distance = 4cm, font = \tiny]
+  \node[block] (l) {F28335};
+  \node[block, right of = l] (r) {IS61LV51216};
+  \draw (l.bpin 6) node[left] {XRD$_n$} --  (r.bpin 5) node[right] {RD$_n$};
+  \draw (l.bpin 7) node[left] {XWE$_n$} --  (r.bpin 4) node[right] {WE$_n$};
+  \draw (l.bpin 8) node[left] {XZCS6$_n$} --  (r.bpin 3) node[right] {CE$_n$};
+  \draw[very thick] (l.bpin 9) node[left] {XD\lbrack 15:0\rbrack} --  (r.bpin 2) node[right] {D\lbrack 15:0\rbrack};
+  \draw[very thick] (l.bpin 10) node[left] {XA\lbrack 18:0\rbrack} --  (r.bpin 1) node[right] {A\lbrack 18:0\rbrack};
+  \draw (r.bpin 7) node[left] {BLE$_n$} -| ++ (1, -1) node[ground] (gnd) {};
+  \draw (r.bpin 6) node[left] (bhe) {BHE$_n$} -- (bhe -| gnd);
+\end{tikzpicture}
+
+\end{document}
